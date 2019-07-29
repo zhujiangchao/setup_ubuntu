@@ -86,7 +86,7 @@ cp zsh-autosuggestions.zsh $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosugge
 
 之后可运行
 
-```
+```bash
 ./setup_ros.sh
 ```
 
@@ -96,19 +96,12 @@ Ubuntu 虚拟机可以使用宿主机的代理设置只需要
 
 * 在 .zshrc 文件中添加下面两行中的一行，推荐使用 http
 
-  ```
+  ```bash
   export all_proxy=http://<宿主机 IP>:<宿主机 http 代理监听端口>
   export all_proxy=socks5://<宿主机 IP>:<宿主机 socks5 代理监听端口>
   ```
 
-* 在系统设置中添加手动代理 http、https、sock 主机均添
-
-* ```
-   export all_proxy=http://<宿主机 IP>:<宿主机 http 代理监听端口>
-   export all_proxy=socks5://<宿主机 IP>:<宿主机 socks5 代理监听端口>
-  ```
-
-* 在系统设置中添加手动代理 http、https、sock 主机均填宿主机 IP，端口http 与 https 填 http 端口，sock 主机填 socks5 端口
+* 在系统设置中添加手动代理 http、https、sock 主机均填宿主机 IP，http 与 https 端口填 http 监听端口，sock 主机填 socks5 监听端口
 
 
 
