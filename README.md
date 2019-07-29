@@ -25,7 +25,7 @@ echo "source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting
 
 * 关闭默认终端，使用 guake 终端
 
-* 在 .zshrc 文件中将 ZSH_THEME=“agnoster” 改为
+* 在 .zshrc 文件中将 ZSH_THEME=“robbyrussell” 改为
 
   ```bash
   ZSH_THEME="agnoster"
@@ -68,6 +68,8 @@ echo "source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting
   #### Keyboard Shortcut ####
 
   * 设置 Toggle Guake visibility 快捷键为 Ctrl+Shift+Space
+  * 设置 Go to previous tab 快捷键为 Ctrl+Shift+P
+  * 设置 Go to next tab 快捷键为 Ctrl+Shift+N
 
   #### 设置开机启动 ####
 
