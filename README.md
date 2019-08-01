@@ -1,5 +1,11 @@
 ## Setup
 
+使用如下命令下载本项目
+
+```bash
+git clone --recursive https://github.com/shenmishajing/setup_ubuntu.git
+```
+
 Ubuntu 装机之后自动安装软件的脚本，使用如下命令为脚本添加运行权限，并运行脚本
 
 ```bash
@@ -9,12 +15,15 @@ sudo chmod a+x *.sh
 
 上面的命令运行结束后仍需运行
 
-```
+```bash
 # install zsh-autosuggestions zsh-syntax-highlighting
 git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 echo "source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+# install config in Setting-for-Mac repo
+sudo chmod a+x Setting-for-Mac/setup.sh
+./Setting-for-Mac/setup.sh
 ```
 
 脚本会将 apt 源换为浙大源并更新一次所有软件，此动作需要确认，可输入 n 取消
