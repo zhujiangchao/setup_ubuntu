@@ -7,11 +7,6 @@ sudo apt-get upgrade
 echo "install curl wget git zsh vim openssh-server guake dconf-tools"
 sudo apt install -y curl wget git zsh vim openssh-server tmux guake dconf-tools
 
-# install tmux plugins
-echo "install tmux plugins"
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-bash ~/.tmux/plugins/tpm/bin/install_plugins
-
 # install powerline fonts
 # clone
 git clone https://github.com/powerline/fonts.git --depth=1
