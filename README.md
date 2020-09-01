@@ -8,10 +8,31 @@ git clone --recursive https://github.com/shenmishajing/setup_ubuntu.git
 
 Ubuntu 装机之后自动安装软件的脚本，使用如下命令为脚本添加运行权限，并运行脚本
 
-```bash
-sudo chmod a+x *.sh
-./setup.sh
-```
+echo "change apt source to ZJU source"
+sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak
+sudo cp sources.list /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get upgrade
+
+echo "install curl wget git zsh vim openssh-server guake dconf-tools"
+sudo apt install -y curl wget git zsh vim openssh-server tmux guake dconf-tools
+
+# install powerline fonts
+# clone
+git clone https://github.com/powerline/fonts.git --depth=1
+# install
+cd fonts
+./install.sh
+# clean-up a bit
+cd ..
+rm -rf fonts
+
+在/etc/hosts中添加
+151.101.76.133 raw.githubusercontent.com
+52.74.223.119 github.com
+
+# install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 上面的命令运行结束后仍需运行
 
@@ -21,10 +42,19 @@ git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 echo "source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-# install config in Setting-for-Mac repo
-sudo chmod a+x Setting-for-Mac/setup.sh
-./Setting-for-Mac/setup.sh
-```
+
+Ubuntu系统proxy设置 Automatic
+安装electron-ssr, 注意要安装一些依赖，否则没法运行
+
+https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
+sudo apt install libcanberra-gtk-module libcanberra-gtk3-module gconf2 gconf-service libappindicator1
+安装python2.7
+sudo apt-get install python
+
+chmod 755 ~/.ssh
+chmod 644 ~/.ssh/id_rsa.pub
+chmod 600 ~/.ssh/id_ras ~/.ssh/config
+
 
 脚本会将 apt 源换为浙大源并更新一次所有软件，此动作需要确认，可输入 n 取消
 
