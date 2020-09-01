@@ -55,6 +55,9 @@ chmod 755 ~/.ssh
 chmod 644 ~/.ssh/id_rsa.pub
 chmod 600 ~/.ssh/id_ras ~/.ssh/config
 
+为git设置代理
+git config --global http.proxy 'socks5://127.0.0.1:1080'
+git config --global https.proxy 'socks5://127.0.0.1:1080'
 
 脚本会将 apt 源换为浙大源并更新一次所有软件，此动作需要确认，可输入 n 取消
 
