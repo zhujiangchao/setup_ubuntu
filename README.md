@@ -1,23 +1,24 @@
 ## Setup
 
-使用如下命令下载本项目
+### Step 1:卸载不常用软件
+sudo apt-get remove libreoffice-common
+sudo apt-get remove unity-webapps-common
+sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku landscape-client-ui-install
+sudo apt-get remove onboard deja-dup
 
-```bash
-git clone --recursive https://github.com/shenmishajing/setup_ubuntu.git
-```
-
-Ubuntu 装机之后自动安装软件的脚本，使用如下命令为脚本添加运行权限，并运行脚本
-
-echo "change apt source to ZJU source"
+### Step 2: 更换源
 sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak
 sudo cp sources.list /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get upgrade
 
-echo "install curl wget git zsh vim openssh-server guake dconf-tools"
+### Step 3: 安装基本软件
 sudo apt install -y curl wget git zsh vim openssh-server tmux guake dconf-tools
 
-# install powerline fonts
+### Step 4: 在/etc/hosts中添加github相关的ip地址
+sudo echo "151.101.76.133 raw.githubusercontent.com\n52.74.223.119 github.com" >> /etc/hosts
+
+### Step 5: install powerline fonts and oh-my-zsh
 # clone
 git clone https://github.com/powerline/fonts.git --depth=1
 # install
@@ -26,15 +27,7 @@ cd fonts
 # clean-up a bit
 cd ..
 rm -rf fonts
-
-在/etc/hosts中添加
-151.101.76.133 raw.githubusercontent.com
-52.74.223.119 github.com
-
-# install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-上面的命令运行结束后仍需运行
 
 ```bash
 # install zsh-autosuggestions zsh-syntax-highlighting
@@ -42,28 +35,6 @@ git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 echo "source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-
-Ubuntu系统proxy设置 Automatic
-安装electron-ssr, 注意要安装一些依赖，否则没法运行
-
-https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
-sudo apt install libcanberra-gtk-module libcanberra-gtk3-module gconf2 gconf-service libappindicator1
-安装python2.7
-sudo apt-get install python
-
-chmod 755 ~/.ssh
-chmod 644 ~/.ssh/id_rsa.pub
-chmod 600 ~/.ssh/id_ras ~/.ssh/config
-
-为git设置代理
-git config --global http.proxy 'socks5://127.0.0.1:1080'
-git config --global https.proxy 'socks5://127.0.0.1:1080'
-
-脚本会将 apt 源换为浙大源并更新一次所有软件，此动作需要确认，可输入 n 取消
-
-脚本会安装 curl wget git zsh vim openssh-server guake 等工具，中途会询问是否要将 shell 换为 zsh，输入 y 之后换用 zsh shell，之后运行第二块命令
-
-脚本运行结束之后，你还应该做以下事情：
 
 * 关闭默认终端，使用 guake 终端
 
@@ -127,6 +98,55 @@ git config --global https.proxy 'socks5://127.0.0.1:1080'
 mv $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh.bak
 cp zsh-autosuggestions.zsh $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ```
+
+### Step 6: 安装sougou输入法
+sudo apt-get install fcitx
+sudo dpkg -i sogoupinyin_2.3.1.0112_amd64.deb
+
+### Step 7: 安装electron-ssr
+sudo apt install libcanberra-gtk-module libcanberra-gtk3-module gconf2 gconf-service libappindicator1
+sudo apt-get install python
+sudo dpkg -i electron-ssr-0.2.6.deb
+
+# https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
+
+### Step 8: config files
+rm -rf $HOME/.gitconfig
+rm -rf $HOME/.gitignore_global
+rm -r $HOME/.ssh
+
+mv Config-File/git/.gitconfig $HOME/
+mv Config-File/git/.gitignore_global $HOME/
+
+cp -r Config-File/.ssh $HOME/.ssh
+chmod 755 ~/.ssh
+chmod 644 ~/.ssh/id_rsa.pub
+chmod 600 ~/.ssh/id_ras ~/.ssh/config
+
+git config --global http.proxy 'socks5://127.0.0.1:1080'
+git config --global https.proxy 'socks5://127.0.0.1:1080'
+
+### Step 8: install cuda and cudnn
+
+
+
+### Step 9: install ros
+
+cuda10.2
+https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1804&target_type=deblocal
+
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
+sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda-repo-ubuntu1804-10-2-local-10.2.89-440.33.01_1.0-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu1804-10-2-local-10.2.89-440.33.01_1.0-1_amd64.deb
+sudo apt-key add /var/cuda-repo-10-2-local-10.2.89-440.33.01/7fa2af80.pub
+sudo apt-get update
+sudo apt-get -y install cuda
+
+https://blog.csdn.net/u013084111/article/details/104167056
+https://blog.csdn.net/qq_32408773/article/details/84112166
+
 
 之后可运行
 
