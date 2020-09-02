@@ -168,4 +168,55 @@ Ubuntu 虚拟机可以使用宿主机的代理设置只需要
 * 在系统设置中添加手动代理 http、https、sock 主机均填宿主机 IP，http 与 https 端口填 http 监听端口，sock 主机填 socks5 监听端口
 
 
+### Step 10: 安装wechat
+git clone https://github.com/wszqkzqk/deepin-wine-ubuntu.git
+cd deepin-wine-ubuntu
+./install.sh
+
+1.下载字体 
+下载地址一：蓝奏云 （推荐）https://www.lanzous.com/i5wivmd
+cp msyh.ttc ~/.deepinwine/Deepin-WeChat/drive_c/windows/Fonts
+2、修改系统注册表
+gedit ~/.deepinwine/Deepin-WeChat/system.reg
+更改以下两行内容为：
+"MS Shell Dlg"="msyh"
+"MS Shell Dlg 2"="msyh"
+3、字体注册
+gedit msyh_config.reg
+在文件msyh_config.reg内添加如下内容：
+
+REGEDIT4
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontLink\SystemLink]
+"Lucida Sans Unicode"="msyh.ttc"
+"Microsoft Sans Serif"="msyh.ttc"
+"MS Sans Serif"="msyh.ttc"
+"Tahoma"="msyh.ttc"
+"Tahoma Bold"="msyhbd.ttc"
+"msyh"="msyh.ttc"
+"Arial"="msyh.ttc"
+"Arial Black"="msyh.ttc"
+
+4.注册
+deepin-wine regedit msyh_config.reg
+
+
+
+### Step 11: 安装typora
+tar -xzvf Typora-linux-x64.tar.gz
+sudo mv Typora-linux-x64 /opt/
+sudo vim /usr/share/applications/Typora.desktop
+
+[Desktop Entry]
+Name=Typora
+GenericName=Editor
+Comment=Typroa - a markdown editor
+Exec="/opt/Typora-linux-x64/Typora" %U
+Icon=/opt/Typora-linux-x64/resources/app/asserts/icon/icon_256x256.png
+Terminal=false
+Categories=Markdown;
+StartupNotify=false
+Type=Application
+
+
+
 

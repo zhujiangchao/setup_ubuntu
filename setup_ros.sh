@@ -7,4 +7,3 @@ rosdep update
 echo "source /opt/ros/melodic/setup.zsh" >> ~/.zshrc
 source ~/.zshrc
 sudo apt install -y python-rosinstall python-rosinstall-generator python-wstool build-essential
-sudo apt autoremove -y
