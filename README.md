@@ -245,7 +245,16 @@ sudo dpkg -r packages/
 
   
 
+- 解决无法上传图片的问题
+
+  ```c++
+  sudo apt install libjpeg62:i386
+  ```
+
+  
+
 ### Step 12： 安装typora
+
 ```bash
 tar -xzvf packages/Typora-linux-x64.tar.gz
 sudo mv packages/Typora-linux-x64 /opt/
