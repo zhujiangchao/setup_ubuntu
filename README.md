@@ -2,9 +2,9 @@
 
 ### Step 1：卸载不常用软件
 ```bash
-sudo apt-get remove libreoffice-common
-sudo apt-get remove unity-webapps-common
-sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku landscape-client-ui-install
+sudo apt-get -y remove libreoffice-common
+sudo apt-get -y remove unity-webapps-common
+sudo apt-get -y remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku landscape-client-ui-install
 sudo apt-get remove onboard deja-dup
 ```
 
@@ -172,7 +172,8 @@ sudo apt install -y python-rosinstall python-rosinstall-generator python-wstool 
 
 ```bash
 sudo apt-get install fcitx
-sudo dpkg -i install/sogoupinyin_2.3.1.0112_amd64.deb
+sudo dpkg -i sogoupinyin_2.3.1.0112_amd64.deb
+sudo apt-get -f install
 ```
 
 
@@ -266,8 +267,8 @@ sudo vim /usr/share/applications/Typora.desktop
 Name=Typora
 GenericName=Editor
 Comment=Typroa - a markdown editor
-Exec="/opt/Typora-linux-x64/Typora" %U
-Icon=/opt/Typora-linux-x64/resources/app/asserts/icon/icon_256x256.png
+Exec="/opt/Typora/Typora" %U
+Icon=/opt/Typora/resources/app/asserts/icon/icon_256x256.png
 Terminal=false
 Categories=Markdown;
 StartupNotify=false
@@ -276,19 +277,9 @@ Type=Application
 
 
 
-### Step 13： install cuda and cudnn
+### Step 13： install cuda and cudnn, follow the steps listed in the following link
+https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1804&target_type=debnetwork
 
-cuda10.2
-https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1804&target_type=deblocal
+### Step 14: install sublime-text
 
 
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
-sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
-wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda-repo-ubuntu1804-10-2-local-10.2.89-440.33.01_1.0-1_amd64.deb
-sudo dpkg -i cuda-repo-ubuntu1804-10-2-local-10.2.89-440.33.01_1.0-1_amd64.deb
-sudo apt-key add /var/cuda-repo-10-2-local-10.2.89-440.33.01/7fa2af80.pub
-sudo apt-get update
-sudo apt-get -y install cuda
-
-https://blog.csdn.net/u013084111/article/details/104167056
-https://blog.csdn.net/qq_32408773/article/details/84112166
