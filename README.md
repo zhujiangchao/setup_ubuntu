@@ -206,7 +206,9 @@ cd deepin-wine-ubuntu
 sudo dpkg -r packages/
 ```
 
-- 解决中文显示乱码的问题
+- 解决中文显示乱码的问题:
+
+  方法一：
 
   #### 下载字体 
 
@@ -244,7 +246,21 @@ sudo dpkg -r packages/
   deepin-wine regedit msyh_config.reg
   ```
 
-  
+
+
+
+​		方法二：
+
+```bash
+sudo subl /opt/deepinwine/tools/run_v2.sh
+```
+
+找到WINE_CMD
+修改为：
+
+```
+WINE_CMD="LC_ALL=zh_CN.UTF-8 deepin-wine"
+```
 
 - 解决无法上传图片的问题
 
