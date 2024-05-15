@@ -1,6 +1,6 @@
-## Setup_18 for Ubuntu 18.04
-
-### Step 1：卸载不常用软件
+## Setup for Ubuntu 20.04（先科学上网）
+## 1 运行脚本配置
+### 1.1 卸载不常用软件
 ```bash
 sudo apt-get -y remove libreoffice-common
 sudo apt-get -y remove unity-webapps-common
@@ -8,37 +8,15 @@ sudo apt-get -y remove thunderbird totem rhythmbox empathy brasero simple-scan g
 sudo apt-get remove onboard deja-dup
 ```
 
-
-
-### Step 2：更换源
+### 1.2 安装基本软件
 ```bash
-sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak
-sudo cp sources.list /etc/apt/sources.list
-sudo apt-get update
-sudo apt-get upgrade
-```
+sudo apt install -y wget git zsh vim openssh-server guake 
+``` 
 
-
-
-### Step 3:：安装基本软件
-```bash
-sudo apt install -y curl wget git zsh vim openssh-server tmux guake dconf-tools
-```
-
-
-
-### Step 4： 在/etc/hosts中添加github相关的ip地址
+### 1.3 配置zsh
 
 ```bash
-sudo echo "151.101.76.133 raw.githubusercontent.com\n52.74.223.119 github.com" >> /etc/hosts
-```
-
-
-
-### Step 5:：配置终端
-
-```bash
-git clone https://github.com/powerline/fonts.git --depth=1
+git clone https://gitee.com/paradis3/powerline-fonts.git --depth=1
 # install
 cd fonts
 ./install.sh
@@ -48,90 +26,18 @@ rm -rf fonts
 
 # install oh-my-zsh
 sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)"
-## or wget https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+
 # install zsh-autosuggestions zsh-syntax-highlighting
-git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+git clone https://gitee.com/victor_htq/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://gitee.com/lightnear/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 echo "source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-```
 
-- 关闭默认终端，使用`guake`终端
-- 替换`.zshrc`
-
-```bash
+# change zsh config file
 rm -rf $HOME/.zshrc
 cp ./configs/.zshrc $HOME/
 ```
 
-
-
-* 打开 dconf-tools 的 org > gnome > desktop > terminal 选择 guake 为默认终端
-
-  > 可能不存在这个路径，便不再配置
-
-* 修改 guake 终端配置如下：
-
-  #### General ####
-
-  * 取消 Enable popup notifications on startup
-
-  #### Main Window ####
-
-  * 取消 show tab bar
-
-  #### Scrollbar ####
-
-  * 选中 infinite scrolling
-
-  #### Appearance ####
-
-  * 取消 Use the system fixed width font
-  * 选择 Source Code Pro for Powerline light 14pt
-  * 选择 I-Beam Cursor shape
-  * 选择 Solaried Dark Higher Contrast built-in schemes
-
-  #### Keyboard Shortcut ####
-
-  * 设置 Toggle Guake visibility 快捷键为 F1
-  * 设置 Go to previous tab 快捷键为 Ctrl+Shift+P
-  * 设置 Go to next tab 快捷键为 Ctrl+Shift+N
-
-  #### 设置开机启动 ####
-
-  * 在启动应用程序中添加命令 /usr/bin/guake
-
-  #### 默认 shell ####
-
-  * 如果 Guake 的默认 shell 还是 bash，可以在 Shell 中手动将其修改为 /usr/bin/zsh
-
-* 如果你在重启了终端之后，自动提示的颜色还是过浅，可运行如下命令，之后重新打开终端即可
-
-```bash
-mv $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh.bak
-cp zsh-autosuggestions.zsh $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-```
-
-
-
-### Step 6：配置tmux
-
-- 替换`.tmux.conf`
-
-```bash
-rm -rf $HOME/.tmux.conf
-cp ./configs/.tmux.conf $HOME/
-```
-
-- 安装插件
-
-```bash
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-bash ~/.tmux/plugins/tpm/bin/install_plugins
-```
-
-
-
-### Step 7：git ssh 配置文件
+### 1.4 配置git与ssh连接
 
 ```bash
 rm -rf $HOME/.gitconfig
@@ -145,52 +51,74 @@ cp -r configs/.ssh $HOME/.ssh
 chmod 755 ~/.ssh
 chmod 644 ~/.ssh/id_rsa.pub
 chmod 600 ~/.ssh/id_ras ~/.ssh/config
-
-git config --global http.proxy 'socks5://127.0.0.1:1080'
-git config --global https.proxy 'socks5://127.0.0.1:1080'
 ```
 
-
-
-### Step 8：install ros (key经常出问题？)
+### 1.5 换系统源和安装ROS (利用fishros脚本一键安装)
 
 ```bash
-sudo sh -c '. /etc/lsb-release && echo "deb http://mirrors.ustc.edu.cn/ros/ubuntu/ $DISTRIB_CODENAME main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-sudo apt-get update 
-sudo apt install -y ros-melodic-desktop
-sudo rosdep init
-rosdep update
-echo "source /opt/ros/melodic/setup.zsh" >> ~/.zshrc
-source ~/.zshrc
-sudo apt install -y python-rosinstall python-rosinstall-generator python-wstool build-essential
+wget http://fishros.com/install -O fishros && . fishros
 ```
 
 
 
-### Step 9：安装sougou输入法
+## 2 图形化配置
+### 2.1 修改 guake 终端配置
+
+  #### General
+
+  * 取消 Enable popup notifications on startup
+  
+
+  #### Scrollbar
+  * 选中 infinite scrolling
+
+  #### Appearance 
+  * 取消 Use the system fixed width font
+  * 选择 Source Code Pro for Powerline light 14pt
+  * 选择 I-Beam Cursor shape
+  * 选择 Solaried Dark Higher Contrast built-in schemes
+
+  #### Keyboard Shortcut (与Terminator匹配) 
+
+  * 设置 Toggle Guake visibility 快捷键为 F1
+  * 设置 Go to previous tab 快捷键为 Ctrl+Shift+P
+  * 设置 Go to next tab 快捷键为 Ctrl+Shift+N
+
+  #### 设置开机启动
+
+  * 在启动应用程序中添加命令 /usr/bin/guake
+
+  #### 默认 shell
+
+  * 如果 Guake 的默认 shell 还是 bash，可以在 Shell 中手动将其修改为 /usr/bin/zsh
+
+* 如果你在重启了终端之后，自动提示的颜色还是过浅，可运行如下命令，之后重新打开终端即可
+
+```bash
+mv $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh.bak
+cp zsh-autosuggestions.zsh $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+```
+
+
+### 2.2 安装sougou输入法
+参考链接：[安装指南](https://shurufa.sogou.com/linux/guide)
 
 ```bash
 sudo apt-get install fcitx
 sudo dpkg -i sogoupinyin_2.3.1.0112_amd64.deb
 sudo apt-get -f install
+sudo apt purge ibus
+sudo apt install libqt5qml5 libqt5quick5 libqt5quickwidgets5 qml-module-qtquick2
+sudo apt install libgsettings-qt1
 ```
 
 
-
-### Step 10：安装electron-ssr和代理设置
-```bash
-sudo apt install libcanberra-gtk-module libcanberra-gtk3-module gconf2 gconf-service libappindicator1
-sudo apt-get install python
-sudo dpkg -i electron-ssr-0.2.6.deb
-```
-
-- 现在我的代理设置方式是这样的：系统的网络设置里选择==自动==，浏览器插件`switchomega`选择==系统代理==；终端的代理使用`proxychains`，在需要代理的命令前加上`proxychains4 `
-- 可能会用到的网址：`https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt`
+### 2.3 安装clash
+从U盘中拷贝clash_for_linux.zip，然后导入url。
 
 
 
-### Step 11：安装wechat
+### 2.4 安装wechat
 
 - 安装`deepin-wine`
 
@@ -246,9 +174,6 @@ sudo dpkg -r packages/
   deepin-wine regedit msyh_config.reg
   ```
 
-
-
-
 ​		方法二：
 
 ```bash
@@ -270,7 +195,7 @@ WINE_CMD="LC_ALL=zh_CN.UTF-8 deepin-wine"
 
   
 
-### Step 12： 安装typora
+### 2.5 安装typora
 
 ```bash
 tar -xzvf packages/Typora-linux-x64.tar.gz
@@ -293,9 +218,9 @@ Type=Application
 
 
 
-### Step 13： install cuda and cudnn, follow the steps listed in the following link
+### 2.6 install cuda and cudnn, follow the steps listed in the following link
 https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1804&target_type=debnetwork
 
-### Step 14: install sublime-text
+### 2.7 install sublime-text
 
 
